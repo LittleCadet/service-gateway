@@ -1,0 +1,43 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: service-gateway-zuul
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://admin:admin123@127.0.0.1:8761/eureka/
+
+management:
+  security:
+    #这是springBoot 1.5.*暴露actuator节点的方式，但是在springBoot 2.*暴露方式是配置endpoints节点。
+    #enabled: true
+  endpoints:
+    web:
+       exposure:
+         # "*":代表暴露actuator所有节点，如果只暴露指定节点，那么节点之间用“，”分隔开
+         include: "*"
+
+zuul:
+  prifix: "/feign"
+  strip-prifix: false
+  routes:
+    feign-consumer: /**
+
+  # 是否禁用过滤器   以下是自定义的PreLogFilter过滤器
+  PreLogFilter:
+    pre:
+      disable: false
+  #设置ribbon的懒加载（避免zuul工程启动太慢）
+  ribbon:
+    eager-load:
+      enabled: true
+
+#logging:
+  #level:
+    #设置zuul的日志级别
+    #com.netflix: DEBUG
+
+
