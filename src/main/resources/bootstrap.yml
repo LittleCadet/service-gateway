@@ -20,7 +20,12 @@ management:
          # "*":代表暴露actuator所有节点，如果只暴露指定节点，那么节点之间用“，”分隔开
          include: "*"
 
+  endpoint:
+      health:
+        #默认是never
+        show-details: always
 zuul:
+  # 注意使用前缀，那么代表actuator的节点，不会全部暴露出来【只会展示默认的几个：actuator/health ; actuator/info节点等】，因为不符合zuul拦截的前缀要求
   prifix: "/feign"
   strip-prifix: false
   routes:
@@ -35,9 +40,9 @@ zuul:
     eager-load:
       enabled: true
 
-#logging:
-  #level:
+logging:
+  level:
     #设置zuul的日志级别
-    #com.netflix: DEBUG
+    com.netflix: DEBUG
 
 
